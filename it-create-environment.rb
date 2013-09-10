@@ -8,7 +8,7 @@ require 'logger'
 def create_a_branch(branch, path) 
 	g = Git.open(path, :log => Logger.new(STDOUT))
 	g.branch(branch).checkout
-	g.push
+	g.push("origin", branch)
 end
 
 env = ask("What is the name of the new environment?") do |q| 
@@ -91,4 +91,5 @@ g = Git.open(environment_path, :log => Logger.new(STDOUT))
 g.add(env + ".yaml")
 g.commit("Added #{env} environment")
 g.fetch
-g.push
+g.rebase("origin/master")
+g.push("origin", "master")
